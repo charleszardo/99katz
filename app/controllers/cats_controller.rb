@@ -7,7 +7,7 @@ class CatsController < ApplicationController
   def show
     @cat = Cat.find(params[:id])
 
-    render json: @cat
+    render :show
   end
 
   private
