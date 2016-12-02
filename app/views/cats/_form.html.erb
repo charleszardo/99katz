@@ -12,7 +12,7 @@
   <input type="text" name="cat[name]" value="<%= cat.name %>" id="cat_name">
   <br>
   <label for="cat_sex">Sex</label>
-  <% @genders.each do |g| %>
+  <% genders.each do |g| %>
     <% checked = cat.sex == g ? "checked" : ""%>
     <label for="cat_gender_<%= g.downcase %>"><%= g %></label>
     <input type="radio" name="cat[sex]" value="<%= g %>" id="cat_gender_<%= g.downcase %>" <%= checked %>>
@@ -21,7 +21,7 @@
   <label for="cat_color">Color</label>
   <select id="cat_color" name="cat[color]">
     <option value="select" disabled="disabled" selected="selected"></option>
-    <% @colors.each do |c| %>
+    <% colors.each do |c| %>
       <% selected = cat.color == c ? "selected" : ""%>
       <option <%= selected %> value="<%= c %>"><%= c.capitalize %></option>
     <% end %>
