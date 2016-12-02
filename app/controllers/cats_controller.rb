@@ -12,8 +12,7 @@ class CatsController < ApplicationController
 
   def new
     @cat = Cat.new
-    @genders = Cat.get_genders
-    @colors = Cat.get_colors
+    set_gender_and_colors
 
     render :new
   end
@@ -29,8 +28,18 @@ class CatsController < ApplicationController
     end
   end
 
+  def edit
+    @cat = Cat.find(params[:id])
+    set_gender_and_colors
+  end
+
   private
   def cat_params
     params.require(:cat).permit(:birth_date, :color, :name, :sex, :description)
+  end
+
+  def set_gender_and_colors
+    @genders = Cat.get_genders
+    @colors = Cat.get_colors
   end
 end
