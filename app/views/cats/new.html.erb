@@ -1,0 +1,26 @@
+<form class="" action="/cats/create" method="post">
+  <label for="cat_name">Name</label>
+  <input type="text" name="cat[name]" value="" id="cat_name">
+  <br>
+  <label for="cat_sex">Sex</label>
+  <% @genders.each do |g| %>
+    <label for="cat_gender_<%= g.downcase %>"><%= g %></label>
+    <input type="radio" name="cat[sex]" value="<%= g %>" id="cat_gender_<%= g.downcase %>">
+  <% end %>
+  <br>
+  <label for="cat_color">Color</label>
+  <select id="cat_color" name="cat[color]">
+    <option value="select" disabled="disabled" selected="selected"></option>
+    <% @colors.each do |c| %>
+      <option value="<%= c %>"><%= c.capitalize %></option>
+    <% end %>
+  </select>
+  <br>
+  <label for="cat_birth_date">Birth Date</label>
+  <input type="date" name="cat[birth_date]" id="cat_birth_date">
+  <br>
+  <label for="cat_description">Description</label>
+  <textarea name="cat[description]" rows="8" cols="80" id="cat_description"></textarea>
+  <br>
+  <input type="submit" name="" value="Create Cat">
+</form>
