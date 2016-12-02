@@ -1,0 +1,36 @@
+<% action = @cat.persisted? ? cat_url(@cat) : cats_url %>
+<%= @cat.to_json %>
+<form action="<%= action %>" method="post">
+  <% if @cat.persisted? %>
+    <% submit_text = "Update Cat" %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% else %>
+    <% submit_text = "Create Cat" %>
+  <% end %>
+  <label for="cat_name">Name</label>
+  <input type="text" name="cat[name]" value="<%= @cat.name %>" id="cat_name">
+  <br>
+  <label for="cat_sex">Sex</label>
+  <% @genders.each do |g| %>
+    <% checked = @cat.sex == g ? "checked" : ""%>
+    <label for="cat_gender_<%= g.downcase %>"><%= g %></label>
+    <input type="radio" name="cat[sex]" value="<%= g %>" id="cat_gender_<%= g.downcase %>" <%= checked %>>
+  <% end %>
+  <br>
+  <label for="cat_color">Color</label>
+  <select id="cat_color" name="cat[color]">
+    <option value="select" disabled="disabled" selected="selected"></option>
+    <% @colors.each do |c| %>
+      <% selected = @cat.color == c ? "selected" : ""%>
+      <option <%= selected %> value="<%= c %>"><%= c.capitalize %></option>
+    <% end %>
+  </select>
+  <br>
+  <label for="cat_birth_date">Birth Date</label>
+  <input type="date" name="cat[birth_date]" id="cat_birth_date" value="<%= @cat.birth_date %>">
+  <br>
+  <label for="cat_description">Description</label>
+  <textarea name="cat[description]" rows="8" cols="80" id="cat_description" value="<%= @cat.description %>"></textarea>
+  <br>
+  <input type="submit" name="" value="<%= submit_text %>">
+</form>
