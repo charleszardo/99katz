@@ -8,6 +8,8 @@ class Cat < ActiveRecord::Base
   validates :color, inclusion: COLORS
   validates :sex, inclusion: GENDERS
 
+  has_many :cat_rental_requests
+
   def self.get_genders
     GENDERS
   end
