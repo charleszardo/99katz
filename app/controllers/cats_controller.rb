@@ -10,6 +10,12 @@ class CatsController < ApplicationController
     render :show
   end
 
+  def new
+    @cat = Cat.new
+
+    render :new
+  end
+
   private
   def cats_params
     params.require(:cats).permit(:birth_date, :color, :name, :sex, :description)
