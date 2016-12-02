@@ -23,7 +23,7 @@ class CatsController < ApplicationController
     if @cat.save!
       redirect_to cat_url(@cat)
     else
-      flash.now[:errors] =@cat.errors.full_messages
+      flash.now[:errors] = @cat.errors.full_messages
       render :new
     end
   end
@@ -31,6 +31,19 @@ class CatsController < ApplicationController
   def edit
     @cat = Cat.find(params[:id])
     set_gender_and_colors
+
+    render :edit
+  end
+
+  def update
+    @cat = Cat.find(params[:id])
+
+    if @cat.update_attributes(cat_params)
+      redirect_to cat_url(@cat)
+    else
+      flash.now[:erros] = @cat.errors.full_messages
+      render :edit
+    end
   end
 
   private
