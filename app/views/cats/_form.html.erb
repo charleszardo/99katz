@@ -1,5 +1,5 @@
 <% action = @cat.persisted? ? cat_url(@cat) : cats_url %>
-<%= @cat.to_json %>
+
 <form action="<%= action %>" method="post">
   <% if @cat.persisted? %>
     <% submit_text = "Update Cat" %>
@@ -7,6 +7,7 @@
   <% else %>
     <% submit_text = "Create Cat" %>
   <% end %>
+  
   <label for="cat_name">Name</label>
   <input type="text" name="cat[name]" value="<%= @cat.name %>" id="cat_name">
   <br>
