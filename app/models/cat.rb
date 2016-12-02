@@ -1,10 +1,12 @@
 class Cat < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+
   COLORS = %w{ red orange yellow green blue indigo violet }
   GENDERS = %w{ O F M }
 
   validates :birth_date, :color, :name, :sex, presence: true
-  validates :color, inclusion: { in: COLORS, message: "%{value} is not a valid color" }
-  validates :sex, inclusion: { in: GENDERS, message: "%{value} is not a valid option" }
+  validates :color, inclusion: COLORS
+  validates :sex, inclusion: GENDERS
 
   def self.get_genders
     GENDERS
@@ -15,6 +17,6 @@ class Cat < ActiveRecord::Base
   end
 
   def age
-    Integer(Integer(Date.today - birth_date) / 365.25)
+    time_ago_in_words(birth_date)
   end
 end
