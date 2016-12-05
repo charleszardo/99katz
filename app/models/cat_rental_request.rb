@@ -1,6 +1,8 @@
 class CatRentalRequest < ActiveRecord::Base
   STATUSES = %w{ PENDING APPROVED DENIED }
 
+  after_initialize :assign_pending_status
+
   validates :cat_id, :start_date, :end_date, :status, presence: true
   validates :status, inclusion: STATUSES
   validate :approved_requests_cannot_overlap
@@ -16,7 +18,25 @@ class CatRentalRequest < ActiveRecord::Base
       .where('start_date < ? OR end_date > ?', self.end_date, self.start_date)
   end
 
+  def approve!
+    raise 'not pending' unless self.status == "PENDING"
+    transaction do
+      self.status = "APPROVED"
+      self.save!
+
+      overlapping_pending_requests.each { |request| request.deny! }
+    end
+  end
+
+  def deny!
+    self.status = "DENIED"
+    self.save!
+  end
+
   private
+  def assign_pending_status
+    self.status ||= "PENDING"
+  end
 
   def overlapping_approved_requests
     overlapping_requests.where("status = 'APPROVED'")
