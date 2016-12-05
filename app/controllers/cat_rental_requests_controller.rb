@@ -8,7 +8,7 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @request = CatRentalRequest.new(request_params)
-    cat = Cat.find(request_params.cat_id)
+    cat = Cat.find(request_params['cat_id'])
 
     if @request.save
       redirect_to cat_url(cat)
