@@ -18,8 +18,28 @@ class CatRentalRequestsController < ApplicationController
     end
   end
 
+  def approve
+    change_status("approve")
+  end
+
+  def deny
+    change_status("deny")
+  end
+
   private
   def request_params
     params.require(:cat_rental_request).permit(:cat_id, :start_date, :end_date)
+  end
+
+  def change_status(new_status)
+    @request = CatRentalRequest.find(params[:id])
+
+    if @request.pending?
+      @request.send("#{new_status}!")
+    else
+      flash.now[:errors] = @request.errors.full_messages
+    end
+
+    redirect_to :back
   end
 end
