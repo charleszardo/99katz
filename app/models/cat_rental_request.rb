@@ -4,6 +4,8 @@ class CatRentalRequest < ActiveRecord::Base
   validates :cat_id, :start_date, :end_date, :status, presence: true
   validates :status, inclusion: STATUSES
   validate :approved_requests_cannot_overlap
+  validate :start_date_must_occur_before_or_on_end_date
+  validate :start_date_cannot_be_in_past
 
   belongs_to :cat
 
@@ -25,8 +27,20 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def approved_requests_cannot_overlap
-    if self.status == 'APPROVED' && !overlapping_approved_requests.empty?
+    if status == 'APPROVED' && !overlapping_approved_requests.empty?
       errors[:approval] << 'Cat rental already approved for this time'
+    end
+  end
+
+  def start_date_must_occur_before_or_on_end_date
+    if start_date > end_date
+      errors[:request] << 'end date must occur on or after start_date'
+    end
+  end
+
+  def start_date_cannot_be_in_past
+    if start_date < Date.today
+      errors[:request] << 'start date cannot be in past'
     end
   end
 end
