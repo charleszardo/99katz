@@ -21,4 +21,22 @@
   </tr>
 </table>
 
+<h3>Requests</h3>
+<table>
+  <tr>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+<% @requests.order("start_date", "end_date").each do |request| %>
+  <tr>
+    <td><%= request.start_date %></td>
+    <td><%= request.end_date %></td>
+    <td><%= request.status %></td>
+    <td><%=  %></td>
+  </tr>
+<% end %>
+</table>
+
 <p><%= link_to "Home", cats_url %></p>
