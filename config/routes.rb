@@ -55,4 +55,6 @@ Rails.application.routes.draw do
   #   end
 
   resources :cats, only: [:index, :show, :new, :create, :edit, :update]
+
+  resources :cat_rental_requests
 end

@@ -1,0 +1,10 @@
+<% action = cat_rental_requests_url %>
+
+<form action="<%= action %>" method="post">
+  <label for="request_cat">Cat:</label>
+  <select name="cat_rental_request[cat_id]">
+  <% @cats.each do |cat| %>
+    <option value="<%= cat.id %>"><%= cat.name %></option>
+  <% end %>
+  </select>
+</form>
