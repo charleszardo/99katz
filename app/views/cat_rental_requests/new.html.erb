@@ -2,9 +2,17 @@
 
 <form action="<%= action %>" method="post">
   <label for="request_cat">Cat:</label>
-  <select name="cat_rental_request[cat_id]">
+  <select name="cat_rental_request[cat_id]" id="request_cat">
   <% @cats.each do |cat| %>
     <option value="<%= cat.id %>"><%= cat.name %></option>
   <% end %>
   </select>
+  <br>
+  <label for="request_start_date">Start Date:</label>
+  <input type="date" name="cat_rental_request[start_date]" id="request_start_date">
+  <br>
+  <label for="request_end_date">End Date:</label>
+  <input type="date" name="cat_rental_request[end_date]" id="request_end_date">
+  <br>
+  <input type="submit" name="" value="Create Request">
 </form>
