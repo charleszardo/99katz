@@ -1,5 +1,6 @@
-<% action = cat_rental_requests_url %>
+<%= render "shared/errors" %>
 
+<% action = cat_rental_requests_url %>
 <form action="<%= action %>" method="post">
   <label for="request_cat">Cat:</label>
   <select name="cat_rental_request[cat_id]" id="request_cat">
@@ -9,10 +10,10 @@
   </select>
   <br>
   <label for="request_start_date">Start Date:</label>
-  <input type="date" name="cat_rental_request[start_date]" id="request_start_date">
+  <input type="date" name="cat_rental_request[start_date]" min="<%= Date.today %>" id="request_start_date">
   <br>
   <label for="request_end_date">End Date:</label>
-  <input type="date" name="cat_rental_request[end_date]" id="request_end_date">
+  <input type="date" name="cat_rental_request[end_date]" min="<%= Date.today %>" id="request_end_date">
   <br>
   <input type="submit" name="" value="Create Request">
 </form>
