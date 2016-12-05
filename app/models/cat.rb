@@ -8,7 +8,7 @@ class Cat < ActiveRecord::Base
   validates :color, inclusion: COLORS
   validates :sex, inclusion: GENDERS
 
-  has_many :cat_rental_requests
+  has_many :cat_rental_requests, :dependent => :destroy
 
   def self.get_genders
     GENDERS
