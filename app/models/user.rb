@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
 
   attr_accessor :password
 
-  def self.find_by_credentials(username, password)
-    user = User.find_by_username(username)
+  def self.find_by_credentials(hash)
+    user = User.find_by_username(hash[:username])
 
-    !user.nil? && user.password_digest.is_password?(password) ? user : nil
+    !user.nil? && user.password_digest.is_password?(hash[:password]) ? user : nil
   end
 
   def self.generate_session_token
@@ -31,13 +31,13 @@ class User < ActiveRecord::Base
     self.password_digest.is_password?(password)
   end
 
-  private
-  def ensure_session_token
-    self.session_token ||= User.generate_session_token
-  end
-
   def reset_session_token!
     self.session_token = User.generate_session_token
     self.save
+  end
+
+  private
+  def ensure_session_token
+    self.session_token ||= User.generate_session_token
   end
 end
