@@ -9,8 +9,13 @@ class ApplicationController < ActionController::Base
   end
 
   def login_user!(user)
-    user.reset_session_token!
-    session[:session_token] = user.session_token
+    token = Session.generate_session_token
+    session = Session.new(user: user, session_token: token)
+    if session.save
+      session[:session_token] = token
+    else
+      render json: session.errors.full_messages
+    end
   end
 
   def redirect_home_if_signed_in
