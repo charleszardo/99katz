@@ -21,6 +21,10 @@
   </tr>
 </table>
 
+<% if @users_cat %>
+  <%= button_to "edit", edit_cat_url, method: :get %>
+<% end %>
+
 <h3>Requests</h3>
 <table>
   <tr>
