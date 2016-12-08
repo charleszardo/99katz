@@ -4,11 +4,12 @@ class Cat < ActiveRecord::Base
   COLORS = %w{ red orange yellow green blue indigo violet }
   GENDERS = %w{ O F M }
 
-  validates :birth_date, :color, :name, :sex, presence: true
+  validates :birth_date, :color, :name, :sex, :owner, presence: true
   validates :color, inclusion: COLORS
   validates :sex, inclusion: GENDERS
 
   has_many :cat_rental_requests, :dependent => :destroy
+  belongs_to :owner, foreign_key: "user_id", class: "User"
 
   def self.get_genders
     GENDERS
