@@ -9,7 +9,7 @@ class Cat < ActiveRecord::Base
   validates :sex, inclusion: GENDERS
 
   has_many :cat_rental_requests, :dependent => :destroy
-  belongs_to :owner, foreign_key: "user_id", class: "User"
+  belongs_to :owner, foreign_key: "user_id", class_name: "User"
 
   def self.get_genders
     GENDERS
