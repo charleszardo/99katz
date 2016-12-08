@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
     self.save
   end
 
+  def owns_cat?(cat_id)
+    cats.find_by_id(cat_id)
+  end
+
   private
   def ensure_session_token
     self.session_token ||= User.generate_session_token

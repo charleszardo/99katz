@@ -1,4 +1,6 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :only_owner_can_approve_request, only: [:approve, :deny]
+
   def new
     @request = CatRentalRequest.new
     @cats = Cat.all
@@ -41,5 +43,12 @@ class CatRentalRequestsController < ApplicationController
     end
 
     redirect_to :back
+  end
+
+  def only_owner_can_approve_request
+    request = CatRentalRequest.find(params[:id])
+    unless current_user && current_user.owns_cat?(request.cat_id)
+      redirect_to cat_url(request.cat_id)
+    end
   end
 end

@@ -24,7 +24,7 @@ class CatsController < ApplicationController
   def create
     @cat = Cat.new(cat_params)
     @cat.user_id = current_user.id
-    
+
     if @cat.save!
       redirect_to cat_url(@cat)
     else
@@ -62,7 +62,7 @@ class CatsController < ApplicationController
   end
 
   def user_owns_cat?
-    current_user && current_user.cats.find_by_id(params[:id])
+    current_user && current_user.owns_cat?(params[:id])
   end
 
   def require_user_owns_cat
