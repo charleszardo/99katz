@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :redirect_home_if_signed_in, only: [:new, :create]
 
   def new
+    @signin_page = true
     @user = User.new
 
     render :new
