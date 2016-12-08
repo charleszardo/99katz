@@ -15,7 +15,7 @@ class CatRentalRequest < ActiveRecord::Base
     CatRentalRequest
       .where.not(id: self.id)
       .where(cat_id: self.cat_id)
-      .where('start_date < ? OR end_date > ?', self.end_date, self.start_date)
+      .where('start_date >= ? AND end_date <= ?', self.start_date, self.end_date)
   end
 
   def approve!
@@ -37,7 +37,7 @@ class CatRentalRequest < ActiveRecord::Base
     self.status == "PENDING"
   end
 
-  private
+  # private
   def assign_pending_status
     self.status ||= "PENDING"
   end
