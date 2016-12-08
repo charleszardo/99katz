@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   before_validation :ensure_session_token
 
   has_many :cats
+  has_many :cat_rental_requests, foreign_key: "requester_id"
 
   attr_accessor :password
 

@@ -3,13 +3,14 @@ class CatRentalRequest < ActiveRecord::Base
 
   after_initialize :assign_pending_status
 
-  validates :cat_id, :start_date, :end_date, :status, presence: true
+  validates :cat_id, :start_date, :end_date, :status, :requester, presence: true
   validates :status, inclusion: STATUSES
   validate :approved_requests_cannot_overlap
   validate :start_date_must_occur_before_or_on_end_date
   validate :start_date_cannot_be_in_past
 
   belongs_to :cat
+  belongs_to :requester, class_name: "User"
 
   def overlapping_requests
     CatRentalRequest
