@@ -8,10 +8,8 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by_credentials(session_params)
-
     if user
       login_user!(user)
-      redirect_to cats_url
     else
       flash.now[:errors] = "Incorrect credentials"
       redirect_to :new
@@ -20,7 +18,7 @@ class SessionsController < ApplicationController
 
   def destroy
     if current_user
-      current_user.reset_session_token!
+      Session.find_by(session_token: session[:session_token]).destroy
       session[:session_token] = nil
     end
 
