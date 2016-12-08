@@ -2,6 +2,7 @@
 
 <% action = cat_rental_requests_url %>
 <form action="<%= action %>" method="post">
+  <%= render "shared/csrf" %>
   <label for="request_cat">Cat:</label>
   <select name="cat_rental_request[cat_id]" id="request_cat">
   <% @cats.each do |cat| %>
