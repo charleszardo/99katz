@@ -1,6 +1,7 @@
 <% action = cat.persisted? ? cat_url(cat) : cats_url %>
 
 <form action="<%= action %>" method="post">
+  <%= render "shared/csrf" %>
   <% if cat.persisted? %>
     <% submit_text = "Update Cat" %>
     <input type="hidden" name="_method" value="PATCH">
