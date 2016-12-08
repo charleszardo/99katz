@@ -3,11 +3,12 @@ class CatRentalRequest < ActiveRecord::Base
 
   after_initialize :assign_pending_status
 
-  validates :cat_id, :start_date, :end_date, :status, :requester, presence: true
+  validates :cat, :start_date, :end_date, :status, :requester, presence: true
   validates :status, inclusion: STATUSES
   validate :approved_requests_cannot_overlap
   validate :start_date_must_occur_before_or_on_end_date
   validate :start_date_cannot_be_in_past
+  validate :owner_cannot_request_rental_of_own_cat
 
   belongs_to :cat
   belongs_to :requester, class_name: "User"
@@ -66,6 +67,12 @@ class CatRentalRequest < ActiveRecord::Base
   def start_date_cannot_be_in_past
     if start_date < Date.today
       errors[:request] << 'start date cannot be in past'
+    end
+  end
+
+  def owner_cannot_request_rental_of_own_cat
+    if User.find_by_id(self.requester_id).owns_cat?(self.cat_id)
+      errors[:errors] = "Owner cannot request to rent own cat"
     end
   end
 end

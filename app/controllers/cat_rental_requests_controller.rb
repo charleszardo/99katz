@@ -1,7 +1,6 @@
 class CatRentalRequestsController < ApplicationController
   before_action :only_owner_can_approve_request, only: [:approve, :deny]
   before_action :request_must_be_made_by_user, only: [:new, :create]
-  before_action :owner_cannot_request_rental_of_own_cat, only: [:new, :create]
 
   def new
     @request = CatRentalRequest.new
@@ -12,13 +11,14 @@ class CatRentalRequestsController < ApplicationController
 
   def create
     @request = CatRentalRequest.new(request_params)
+    @request.requester = current_user
     cat = Cat.find(request_params['cat_id'])
 
     if @request.save
       redirect_to cat_url(cat)
     else
-      flash.now[:errors] = @request.errors.full_messages
-      render :new
+      flash[:errors] = @request.errors.full_messages
+      redirect_to new_cat_rental_request_url
     end
   end
 
@@ -57,14 +57,6 @@ class CatRentalRequestsController < ApplicationController
   def request_must_be_made_by_user
     unless current_user
       flash.now[:errors] = "You must be logged in to make a request"
-      render :new
-    end
-  end
-
-  def owner_cannot_request_rental_of_own_cat
-    request = CatRentalRequest.find_by(params[:id])
-    if current_user.owns_cat?(request.cat_id)
-      flash.now[:errors] = "Owner cannot request to rent own cat"
       render :new
     end
   end
