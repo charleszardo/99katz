@@ -7,8 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by_credentials(session_params)
 
     if user
-      user.reset_session_token!
-      session[:session_token] = user.session_token
+      login_user!(user)
       redirect_to cats_url
     else
       flash.now[:errors] = "Incorrect credentials"
