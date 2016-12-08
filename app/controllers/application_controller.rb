@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
     curr_session = Session.new(user: user, session_token: token)
     if curr_session.save
       session[:session_token] = token
-      redirect_to cats_url
     else
       render json: session.errors.full_messages
     end
