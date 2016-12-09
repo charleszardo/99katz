@@ -1,9 +1,24 @@
-<% @user.sessions.each do |sesh| %>
-  <% token = sesh.session_token %>
-  <p><%= sesh.location + ", " + sesh.device_type + " : " + token %></p>
-  <% if token == current_session.session_token %>
-    <p>(CURRENT SESSION)</p>
-  <% else %>
-    <%= button_to "logout", "/sessions/#{sesh.id}", :method => :delete %>
+<h3>Sessions</h3>
+<table>
+  <tr>
+    <th>Location</th>
+    <th>Device Type</th>
+    <th>Session Token</th>
+    <th>Action</th>
+  </tr>
+  <% @user.sessions.each do |sesh| %>
+    <% token = sesh.session_token %>
+    <tr>
+      <td><%= sesh.location %></td>
+      <td><%= sesh.device_type %></td>
+      <td><%= token %></td>
+      <td>
+        <% if token == current_session.session_token %>
+          CURRENT SESSION
+        <% else %>
+          <%= button_to "logout", "/sessions/#{sesh.id}", :method => :delete %>
+        <% end %>
+      </td>
+    </tr>
   <% end %>
-<% end %>
+</table>
