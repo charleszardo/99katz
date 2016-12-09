@@ -1,28 +1,15 @@
-== README
+== 99 Katz
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Small rails app which allows users to list cats, request cat rentals, and approve/deny requests.
 
-Things you may want to cover:
+== Features
+* Custom user authentication and validations
+* Allows multiple concurrent sessions per user
+* User can see all active sessions at <tt>/users/:id</tt>
+* {Geocoder}[https://github.com/alexreisner/geocoder] gem used to store login location for each session
 
-* Ruby version
+== To Run
+* Ruby/Rails must be installed on your machine
+* Run <tt>bundle install</tt> to install necessary gems
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+{Live Demo}[https://ninetyninekatz.herokuapp.com/]
