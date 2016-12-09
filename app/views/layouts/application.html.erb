@@ -9,7 +9,7 @@
 <body>
 <% if @signin_page %>
 <% elsif current_user %>
-  <%= current_user.username %>
+  <a href="<%= user_url(current_user) %>"><%= current_user.username %></a>
   <%= button_to "logout", "/sessions/#{current_session.id}", :method => :delete %>
 <% else %>
   <%= button_to "sign up", new_user_url, :method => :get %>
