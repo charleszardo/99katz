@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
 
   def destroy
     if current_user
-      destroy_sesh = Session.find_by(params[:id])
+      destroy_sesh = Session.find(params[:id])
       session[:session_token] = nil if destroy_sesh.session_token == session[:session_token]
       destroy_sesh.destroy
     end
