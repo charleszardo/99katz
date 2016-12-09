@@ -1,7 +1,7 @@
 class CatsController < ApplicationController
-  before_action :require_user_owns_cat, only: [:edit, :update]
+  before_action :require_cat_ownership, only: [:edit, :update]
   before_action :set_gender_and_colors, only: [:new, :edit]
-  before_action :require_login, only: [:new, :create, :edit, :update]
+  before_action :require_user, only: [:new, :create, :edit, :update]
 
   def index
     @cats = Cat.all
@@ -9,7 +9,7 @@ class CatsController < ApplicationController
   end
 
   def show
-    @cat = Cat.find(params[:id])
+    @cat = Cat.includes(:cat_rental_requests).find(params[:id])
     @requests = @cat.cat_rental_requests
     @users_cat = user_owns_cat?
 
@@ -25,7 +25,7 @@ class CatsController < ApplicationController
   def create
     @cat = current_user.cats.new(cat_params)
 
-    if @cat.save!
+    if @cat.save
       redirect_to cat_url(@cat)
     else
       flash.now[:errors] = @cat.errors.full_messages
@@ -45,7 +45,7 @@ class CatsController < ApplicationController
     if @cat.update_attributes(cat_params)
       redirect_to cat_url(@cat)
     else
-      flash.now[:erros] = @cat.errors.full_messages
+      flash.now[:errors] = @cat.errors.full_messages
       render :edit
     end
   end
@@ -64,7 +64,7 @@ class CatsController < ApplicationController
     current_user && current_user.owns_cat?(params[:id])
   end
 
-  def require_user_owns_cat
+  def require_cat_ownership
     unless user_owns_cat?
       redirect_to cats_url
     end
