@@ -1,3 +1,9 @@
-<% @user.sessions.each do |session| %>
-  <p><%= session.session_token %></p>
+<% @user.sessions.each do |sesh| %>
+  <% token = sesh.session_token %>
+  <p><%= token %></p>
+  <% if token == current_session.session_token %>
+    <p>(CURRENT SESSION)</p>
+  <% else %>
+    <%= button_to "logout", "/sessions/#{sesh.id}", :method => :delete %>
+  <% end %>
 <% end %>
