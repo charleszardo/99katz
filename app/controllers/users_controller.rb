@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :disallow_if_signed_in, only: [:new, :create]
+  before_action :require_user, only: [:new, :create]
   before_action :only_user_can_see_own_profile, only: [:show]
 
   def new
@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
     if @user.save
       login_user!(@user)
-      redirect_to cats_url
+      redirect_back
     else
       flash.now[:errors] = @user.errors.full_messages
       render :new
