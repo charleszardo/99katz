@@ -1,6 +1,6 @@
 <% @user.sessions.each do |sesh| %>
   <% token = sesh.session_token %>
-  <p><%= token %></p>
+  <p><%= sesh.device_type + " : " + token %></p>
   <% if token == current_session.session_token %>
     <p>(CURRENT SESSION)</p>
   <% else %>
