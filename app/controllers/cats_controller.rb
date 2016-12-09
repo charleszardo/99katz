@@ -1,6 +1,7 @@
 class CatsController < ApplicationController
   before_action :require_user_owns_cat, only: [:edit, :update]
   before_action :set_gender_and_colors, only: [:new, :edit]
+  before_action :require_login, only: [:new, :create, :edit, :update]
 
   def index
     @cats = Cat.all
