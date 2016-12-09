@@ -16,7 +16,11 @@ class ApplicationController < ActionController::Base
   def login_user!(user)
     token = Session.generate_session_token
     device_type = request.env['mobvious.device_type'].to_s
-    curr_session = Session.new(user: user, session_token: token, device_type: device_type)
+    loc = request.location.data["city"]
+    curr_session = Session.new(user: user,
+                               session_token: token,
+                               device_type: device_type,
+                               location: loc)
     if curr_session.save
       session[:session_token] = token
     else
