@@ -1,6 +1,6 @@
 class CatRentalRequestsController < ApplicationController
-  before_action :only_owner_can_approve_request, only: [:approve, :deny]
-  before_action :require_login, only: [:new, :create]
+  before_action :require_cat_ownership, only: [:approve, :deny]
+  before_action :require_user, only: [:new, :create]
 
   def new
     @request = CatRentalRequest.new
@@ -12,13 +12,12 @@ class CatRentalRequestsController < ApplicationController
   def create
     @request = CatRentalRequest.new(request_params)
     @request.requester = current_user
-    cat = Cat.find(request_params['cat_id'])
 
     if @request.save
-      redirect_to cat_url(cat)
+      redirect_to cat_url(@request.cat)
     else
-      flash[:errors] = @request.errors.full_messages
-      redirect_to new_cat_rental_request_url
+      flash.now[:errors] = @request.errors.full_messages
+      redirect_to :new
     end
   end
 
@@ -32,25 +31,33 @@ class CatRentalRequestsController < ApplicationController
 
   private
   def request_params
-    params.require(:cat_rental_request).permit(:cat_id, :start_date, :end_date)
+    params.require(:cat_rental_request).permit(:cat_id, :start_date, :end_date, :status)
+  end
+
+  def current_cat_rental_request
+    @request ||= CatRentalRequest.includes(:cat).find(params[:id])
+  end
+
+  def current_cat
+    current_cat_rental_request.cat
   end
 
   def change_status(new_status)
-    @request = CatRentalRequest.find(params[:id])
+    request = current_cat_rental_request
 
-    if @request.pending?
-      @request.send("#{new_status}!")
+    if request.pending?
+      request.send("#{new_status}!")
     else
-      flash.now[:errors] = @request.errors.full_messages
+      flash.now[:errors] = request.errors.full_messages
     end
 
     redirect_to :back
   end
 
-  def only_owner_can_approve_request
-    request = CatRentalRequest.find(params[:id])
-    unless current_user && current_user.owns_cat?(request.cat_id)
-      redirect_to cat_url(request.cat_id)
+  def require_cat_ownership
+    request = current_cat_rental_request
+    unless current_user && current_user.owns_cat?(current_cat)
+      redirect_to cat_url(current_cat)
     end
   end
 end
