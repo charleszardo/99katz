@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     @signin_page = true
+    
     render :new
   end
 
