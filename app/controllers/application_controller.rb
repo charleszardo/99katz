@@ -24,7 +24,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  private
   def redirect_home_if_signed_in
     redirect_to cats_url if current_user
+  end
+
+  def require_login
+    unless current_user
+      loc = request.referer.nil? ? cats_url : request.referer
+      session[:return_to] ||= loc
+      redirect_to session.delete(:return_to)
+    end
   end
 end

@@ -1,5 +1,6 @@
 <% @cats.each do |cat| %>
   <h3><%= link_to cat.name, cat_url(cat) %></h3>
 <% end %>
-
+<% if current_user %>
 <%= link_to "Make a rental request", new_cat_rental_request_url %>
+<% end %>
