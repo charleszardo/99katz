@@ -1,9 +1,9 @@
 class SessionsController < ApplicationController
-  before_action :disallow_if_signed_in, only: [:new, :create]
+  before_action :require_no_user, only: [:new, :create]
 
   def new
     @signin_page = true
-    
+
     render :new
   end
 
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     user = User.find_by_credentials(session_params)
     if user
       login_user!(user)
-      redirect_to cats_url
+      redirect_back
     else
       flash.now[:errors] = "Incorrect credentials"
       redirect_to :new
@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
       destroy_sesh.destroy
     end
 
-    redirect_to cats_url
+    redirect_back
   end
 
   private
