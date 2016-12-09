@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_no_login
+  def require_no_user
     redirect_back if current_user
   end
 
@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     redirect_to session.delete(:return_to)
   end
 
-  def require_login
+  def require_user
     redirect_back unless current_user
   end
 
