@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :redirect_home_if_signed_in, only: [:new, :create]
+  before_action :disallow_if_signed_in, only: [:new, :create]
   before_action :only_user_can_see_own_profile, only: [:show]
 
   def new
@@ -33,8 +33,6 @@ class UsersController < ApplicationController
   end
 
   def only_user_can_see_own_profile
-    unless current_user && current_user.id == params[:id].to_i
-      redirect_back
-    end
+    redirect_back unless current_user && current_user.id == params[:id].to_i
   end
 end

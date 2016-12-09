@@ -25,8 +25,8 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def redirect_home_if_signed_in
-    redirect_to cats_url if current_user
+  def disallow_if_signed_in
+    redirect_back if current_user
   end
 
   def redirect_back
@@ -36,8 +36,6 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    unless current_user
-      redirect_back
-    end
+    redirect_back unless current_user
   end
 end
