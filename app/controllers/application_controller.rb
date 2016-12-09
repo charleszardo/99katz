@@ -29,11 +29,15 @@ class ApplicationController < ActionController::Base
     redirect_to cats_url if current_user
   end
 
+  def redirect_back
+    loc = request.referer.nil? ? cats_url : request.referer
+    session[:return_to] ||= loc
+    redirect_to session.delete(:return_to)
+  end
+
   def require_login
     unless current_user
-      loc = request.referer.nil? ? cats_url : request.referer
-      session[:return_to] ||= loc
-      redirect_to session.delete(:return_to)
+      redirect_back
     end
   end
 end

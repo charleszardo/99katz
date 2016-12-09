@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :redirect_home_if_signed_in, only: [:new, :create]
+  before_action :only_user_can_see_own_profile, only: [:show]
 
   def new
     @signin_page = true
@@ -22,12 +23,18 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_id(params[:id])
-    
+
     render :show
   end
 
   private
   def user_params
     params.require(:user).permit(:username, :password)
+  end
+
+  def only_user_can_see_own_profile
+    unless current_user && current_user.id == params[:id].to_i
+      redirect_back
+    end
   end
 end
