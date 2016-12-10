@@ -7,17 +7,21 @@ class User < ActiveRecord::Base
   has_many :cat_rental_requests, foreign_key: "requester_id"
   has_many :sessions
 
-  attr_accessor :password
+  attr_reader :password
 
   def self.find_by_credentials(hash)
     user = User.find_by_username(hash[:username])
 
-    !user.nil? && user.password_digest.is_password?(hash[:password]) ? user : nil
+    !user.nil? && user.is_password?(hash[:password]) ? user : nil
   end
 
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
+  end
+
+  def owns_cat?(cat_id)
+    cats.find_by_id(cat_id)
   end
 
   def password_digest
@@ -26,9 +30,5 @@ class User < ActiveRecord::Base
 
   def is_password?(password)
     self.password_digest.is_password?(password)
-  end
-
-  def owns_cat?(cat_id)
-    cats.find_by_id(cat_id)
   end
 end
