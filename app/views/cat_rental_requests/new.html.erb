@@ -1,3 +1,5 @@
+<h1>Create Rental Request</h1>
+
 <%= render "shared/errors" %>
 
 <% action = cat_rental_requests_url %>
@@ -5,16 +7,20 @@
   <%= render "shared/csrf" %>
   <label for="request_cat">Cat:</label>
   <select name="cat_rental_request[cat_id]" id="request_cat">
-  <% @cats.each do |cat| %>
-    <option value="<%= cat.id %>"><%= cat.name %></option>
-  <% end %>
+    <% @cats.each do |cat| %>
+      <% selected = @request.cat_id == cat.id %>
+      <option <%= selected ? "selected" : ""%>
+        value="<%= cat.id %>">
+        <%= cat.name %>
+      </option>
+    <% end %>
   </select>
   <br>
   <label for="request_start_date">Start Date:</label>
-  <input type="date" name="cat_rental_request[start_date]" min="<%= Date.today %>" id="request_start_date">
+  <input type="date" value="<%= @request.start_date %>" name="cat_rental_request[start_date]" min="<%= Date.today %>" id="request_start_date">
   <br>
   <label for="request_end_date">End Date:</label>
-  <input type="date" name="cat_rental_request[end_date]" min="<%= Date.today %>" id="request_end_date">
+  <input type="date" value="<%= @request.end_date %>" name="cat_rental_request[end_date]" min="<%= Date.today %>" id="request_end_date">
   <br>
   <input type="submit" name="" value="Create Request">
 </form>
