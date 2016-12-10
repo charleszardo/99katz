@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user, only: [:new, :create]
+  before_action :require_no_user, only: [:new, :create]
   before_action :only_user_can_see_own_profile, only: [:show]
 
   def new
