@@ -34,7 +34,6 @@ gem 'bcrypt-ruby', require: 'bcrypt'
 
 gem 'mobvious'
 gem 'geocoder'
-gem 'letter_opener'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -53,6 +52,7 @@ group :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'letter_opener'
 end
 
 group :production do

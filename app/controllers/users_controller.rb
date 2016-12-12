@@ -15,13 +15,19 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      msg = UserMailer.welcome_email(@user)
-      msg.deliver_now
+      send_email(@user)
       login_user!(@user)
       redirect_back
     else
       flash.now[:errors] = @user.errors.full_messages
       render :new
+    end
+  end
+
+  def send_email(user)
+    if Rails.env.development?
+      msg = UserMailer.welcome_email(user)
+      msg.deliver_now
     end
   end
 
