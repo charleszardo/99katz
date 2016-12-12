@@ -1,5 +1,5 @@
 <form class="" action="<%= action %>" method="post">
-  <%= render "shared/csrf" %>
+  <%= auth_token %>
   <label for="user_username">Username:</label>
   <input type="text" name="user[username]" id="user_username">
   <br>
