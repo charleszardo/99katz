@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @signin_page = true
+    @signup = true
     @user = User.new
 
     render :new
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :email)
   end
 
   def only_user_can_see_own_profile

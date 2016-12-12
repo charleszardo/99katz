@@ -1,5 +1,10 @@
 <form class="" action="<%= action %>" method="post">
   <%= auth_token %>
+  <% if @signup %>
+  <label for="user_email">Email:</label>
+  <input type="text" name="user[email]" id="user_email">
+  <br>
+  <% end %>
   <label for="user_username">Username:</label>
   <input type="text" name="user[username]" id="user_username">
   <br>
