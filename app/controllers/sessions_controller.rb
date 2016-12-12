@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     @signin_page = true
+    set_redirect_back
 
     render :new
   end
@@ -24,7 +25,8 @@ class SessionsController < ApplicationController
       session[:session_token] = nil if destroy_sesh.session_token == session[:session_token]
       destroy_sesh.destroy
     end
-
+    
+    set_redirect_back
     redirect_back
   end
 

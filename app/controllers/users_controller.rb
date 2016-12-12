@@ -6,6 +6,7 @@ class UsersController < ApplicationController
     @signin_page = true
     @signup = true
     @user = User.new
+    set_redirect_back
 
     render :new
   end
@@ -36,6 +37,6 @@ class UsersController < ApplicationController
   end
 
   def only_user_can_see_own_profile
-    redirect_back unless current_user && current_user.id == params[:id].to_i
+    redirect_to cats_url unless current_user && current_user.id == params[:id].to_i
   end
 end
