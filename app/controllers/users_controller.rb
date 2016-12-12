@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     if @user.save
       msg = UserMailer.welcome_email(@user)
-      msg.deliver
+      msg.deliver_now
       login_user!(@user)
       redirect_back
     else
